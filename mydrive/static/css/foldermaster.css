@@ -1,0 +1,111 @@
+/* Estilos para a barra de navegação */
+.navbar {
+    background-color: #4285f4; /* Cor de fundo do Google Drive */
+    width: 20%; /* Largura da barra de navegação */
+    height: 100vh; /* Altura total da tela */
+    padding: 16px; /* Espaçamento interno */
+    box-sizing: border-box; /* Inclui padding na largura total */
+    color: white; /* Cor do texto */
+}
+
+.navbar-list {
+    list-style-type: none; /* Remove marcadores da lista */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+.navbar-list li {
+    margin-bottom: 16px; /* Espaçamento inferior */
+}
+
+.navbar-brand {
+    font-size: 1.5rem; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito */
+    display: block; /* Exibição em bloco */
+}
+
+.navbar-link {
+    display: block; /* Exibição em bloco */
+    text-decoration: none; /* Remove sublinhado */
+    color: white; /* Cor do texto */
+    font-weight: bold; /* Negrito */
+}
+
+.navbar-link:hover {
+    text-decoration: underline; /* Sublinhado ao passar o mouse */
+}
+
+/* Estilos para o conteúdo principal */
+.flex-container {
+    display: flex; /* Exibição flexível */
+    height: 100vh; /* Altura total da tela */
+}
+
+.main-content {
+    width: 80%; /* Largura do conteúdo principal */
+    padding: 32px; /* Espaçamento interno */
+    box-sizing: border-box; /* Inclui padding na largura total */
+}
+
+.background-gray {
+    background-color: #f3f4f6; /* Cor de fundo cinza claro */
+}
+
+.section-title {
+    font-size: 1.25rem; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito */
+    margin-bottom: 16px; /* Margem inferior */
+}
+
+.new-folder-section {
+    margin-bottom: 32px; /* Espaçamento inferior */
+}
+
+.new-folder-form {
+    display: flex; /* Exibição flexível */
+    flex-direction: column; /* Coluna */
+}
+
+.form-group {
+    margin-bottom: 8px; /* Espaçamento inferior */
+}
+
+.button, .submit-button {
+    background-color: #1a73e8; /* Cor de fundo azul */
+    color: white; /* Cor do texto */
+    padding: 8px 16px; /* Espaçamento interno */
+    border: none; /* Sem borda */
+    border-radius: 4px; /* Bordas arredondadas */
+    cursor: pointer; /* Cursor de ponteiro */
+}
+
+.error-message {
+    color: red; /* Cor do texto */
+    margin-top: 8px; /* Margem superior */
+}
+
+.folder-list,
+.file-list {
+    list-style-type: disc; /* Marcadores de lista */
+    padding-left: 20px; /* Espaçamento interno à esquerda */
+}
+
+.folder-item,
+.file-item {
+    margin-bottom: 8px; /* Espaçamento inferior */
+}
+
+.folder-link,
+.file-link {
+    color: #1a73e8; /* Cor do link */
+    text-decoration: none; /* Remove sublinhado */
+}
+
+.folder-link:hover,
+.file-link:hover {
+    text-decoration: underline; /* Sublinhado ao passar o mouse */
+}
+
+.hidden {
+    display: none; /* Oculta elementos */
+}

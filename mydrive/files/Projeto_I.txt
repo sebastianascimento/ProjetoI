@@ -1,0 +1,7 @@
+Projeto I
+
+Backend
+amanha e quarta - login logout Reset Password
+
+Frontend
+quinta e sexta - fazer html e css com javascript  

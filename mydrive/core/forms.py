@@ -25,12 +25,13 @@ class LoginForm(AuthenticationForm):
      
 
 
+
 class SignupForm(UserCreationForm):
     username = forms.CharField(
         max_length=150,
         required=True,
         widget=forms.TextInput(attrs={
-            'placeholder': ('Your Username'),
+            'placeholder': 'Your Username',
             'class': 'form-control'
         })
     )
@@ -38,14 +39,14 @@ class SignupForm(UserCreationForm):
     email = forms.EmailField(
         max_length=250,
         required=True,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'Your email addres',
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'Your email address',
             'class': 'form-control'
         })
     )
 
     password1 = forms.CharField(
-        label=("Password"),
+        label="Password",
         strip=False,
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Your password',
@@ -54,22 +55,26 @@ class SignupForm(UserCreationForm):
     )
 
     password2 = forms.CharField(
-        label=("Password confirmation"),
+        label="Password confirmation",
         strip=False,
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Repeat password',
-        }),
+            'class': 'form-control'
+        })
+    )
+
+    account_type = forms.ChoiceField(
+        choices=[('normal', 'Normal'), ('staff', 'Staff')],
+        required=True,
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'password1', 'password2', 'account_type')
 
-
-
-
-    def clean_account_type(self):
-        account_type = self.cleaned_data.get('account_type')
-        if account_type not in ['normal', 'staff']:
-            raise forms.ValidationError("Invalid account type.")
-        return account_type
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email address is already in use.")
+        return email

@@ -18,7 +18,9 @@ from django.contrib import admin
 from django.urls import path , include
 
 
+
 urlpatterns = [
     path('' , include('core.urls')),
+    path('foldermaster/' , include('foldermaster.urls' )),
     path('admin/', admin.site.urls),
 ]
