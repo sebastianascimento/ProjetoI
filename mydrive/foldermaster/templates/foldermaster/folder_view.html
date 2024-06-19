@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-content">
+    <!-- Caminho da pasta atual -->
+    <div class="breadcrumbs">
+        {% if folder %}
+            <p>Current Path:</p>
+            <ul class="breadcrumb-list">
+                <li><a href="{% url 'foldermaster:foldermanagement' %}">My Drive</a></li>
+                {% for name, url in breadcrumbs %}
+                    <li class="separator">/</li>
+                    <li><a href="{% url 'foldermaster:foldermanagement' folder_id=url %}">{{ name }}</a></li>
+                {% endfor %}
+                <li class="separator">/</li>
+                <li>{{ folder.name }}</li>
+            </ul>
+        {% endif %}
+    </div>
+
+    <!-- Lista de subpastas (dentro da pasta pai) -->
+    <div class="subfolders-section">
+        <h2 class="section-title">Subfolders of {{ folder.name }}</h2>
+        <ul class="folder-list">
+            {% for subfolder in subfolders %}
+                <li class="folder-item">
+                    <a href="{% url 'foldermaster:foldermanagement' folder_id=subfolder.id %}" class="folder-link">{{ subfolder.name }}</a>
+                </li>
+            {% empty %}
+                <li>No subfolders found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Lista de arquivos -->
+    <div class="root-files-section">
+        <h2 class="section-title">Root Files</h2>
+        <ul class="file-list">
+            {% for file in files %}
+                <li class="file-item">
+                    {{ file.name }} -
+                    <a href="{% url 'foldermaster:download_file' file_id=file.id %}" class="file-link">Download</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div> <!-- /.main-content -->
+{% endblock %}

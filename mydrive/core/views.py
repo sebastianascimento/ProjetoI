@@ -3,16 +3,23 @@ from django.contrib.auth import authenticate , login , logout
 from django.contrib  import messages
 from foldermaster.models import Folder
 from django.urls import reverse
-from django.contrib.auth.views import LoginView
+from django.contrib.admin.views.decorators import staff_member_required
+from django.conf import settings
+from django.contrib.auth.decorators import user_passes_test
+
 
 
 from .forms import SignupForm , LoginForm
 
 
+
 def index(request):
     if request.user.is_authenticated:
-        folder_id = 1
-        return redirect('foldermaster:foldermanagement' , folder_id=folder_id)
+        if request.user.is_staff:
+            return redirect('admin:index')
+        else:
+            folder_id = get_folder_id_for_user(request.user)
+            return redirect('foldermaster:foldermanagement' , folder_id=folder_id)
     else:
         return render(request, 'core/index.html')
 
@@ -55,29 +62,32 @@ def login_redirect_url(request):
 
 
 def login_view(request):
-    error_message = None  
+    error_message = None
+    form = LoginForm(request.POST or None)
     
-    if request.method == 'POST':
-        form = LoginForm(data=request.POST) 
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                next_url = request.POST.get('next')
-                if next_url:
-                    return redirect(next_url)
-                else:
-                    folder_id = get_folder_id_for_user(user)
-                    return redirect('foldermaster:foldermanagement' , folder_id=folder_id)
+    if request.method == 'POST' and form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            if user.is_staff:
+                print(user.is_satff)
+                return redirect(settings.ADMIN_URL)
             else:
-                error_message = 'Invalid username or password.'
-    else:
-        form = LoginForm()
+                folder_id = get_folder_id_for_user(user)
+                return redirect('foldermaster:foldermanagement', folder_id=folder_id)
+        else:
+            error_message = 'Invalid username or password.'
+    
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'core/login.html', context)
 
-    return render(request, 'core/login.html', {'form': form, 'error_message': error_message})
 
+@staff_member_required
+def admin_view(request):
+    return redirect(settings.ADMIN_URL)
 
 def logout_view(request):
     logout(request)

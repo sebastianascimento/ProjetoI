@@ -1,0 +1,160 @@
+html front end 
+
+
+{% extends 'core/base.html' %}
+
+{% load static %} 
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="{% static 'css/foldermaster.css' %}" rel="stylesheet">
+    <title>{% block title %}Your Drive{% endblock %} | Drive World</title>
+</head>
+
+
+
+{% block content %}
+<div class="flex h-screen">
+    <div class="sidebar">
+        <button class="sidebar-button" onclick="showSection('create-folder')">Create New Folder</button>
+        <button class="sidebar-button" onclick="showSection('root-folders')">Root Folders</button>
+        <button class="sidebar-button" onclick="showSection('root-files')">Root Files</button>
+        <button class="sidebar-button" onclick="showSection('recent-files')">Recent Files</button>
+        <button class="sidebar-button" onclick="showSection('trash')">Trash</button>
+        <button class="sidebar-button" onclick="showSection('storage')">Storage</button>
+    </div>
+
+    <div class="main-content">
+        <div id="create-folder" class="section hidden">
+            <h2 class="section-title">Create Folder</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ folder_form.as_p }}
+                </div>
+                <button type="submit" name="create_folder" class="submit-button">Create Folder</button>
+                {% if error %}
+                    <p class="error-message">{{ error }}</p>
+                {% endif %}
+            </form>
+        </div>
+
+        <div id="root-folders" class="section hidden">
+            <h2 class="section-title">Root Folders</h2>
+            <ul class="list">
+                {% for folder in folders %}
+                    <li class="list-item">
+                        <a href="{% url 'foldermaster:foldermanagement' folder_id=folder.id %}" class="link">{{ folder.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="root-files" class="section hidden">
+            <h2 class="section-title">Root Files</h2>
+            <ul class="list">
+                {% for file in files %}
+                    <li class="list-item">
+                        {{ file.name }} - <a href="{% url 'foldermaster:download_file' file_id=file.id %}" class="link">Download</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="recent-files" class="section hidden">
+            <h2 class="section-title">Recent Files</h2>
+        </div>
+
+        <div id="trash" class="section hidden">
+            <h2 class="section-title">Trash</h2>
+        </div>
+
+        <div id="storage" class="section hidden">
+            <h2 class="section-title">Storage</h2>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}{% extends 'core/base.html' %}
+
+{% load static %} 
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="{% static 'css/foldermaster.css' %}" rel="stylesheet">
+    <title>{% block title %}Your Drive{% endblock %} | Drive World</title>
+</head>
+
+
+
+{% block content %}
+<div class="flex h-screen">
+    <div class="sidebar">
+        <button class="sidebar-button" onclick="showSection('create-folder')">Create New Folder</button>
+        <button class="sidebar-button" onclick="showSection('root-folders')">Root Folders</button>
+        <button class="sidebar-button" onclick="showSection('root-files')">Root Files</button>
+        <button class="sidebar-button" onclick="showSection('recent-files')">Recent Files</button>
+        <button class="sidebar-button" onclick="showSection('trash')">Trash</button>
+        <button class="sidebar-button" onclick="showSection('storage')">Storage</button>
+    </div>
+
+    <div class="main-content">
+        <div id="create-folder" class="section hidden">
+            <h2 class="section-title">Create Folder</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ folder_form.as_p }}
+                </div>
+                <button type="submit" name="create_folder" class="submit-button">Create Folder</button>
+                {% if error %}
+                    <p class="error-message">{{ error }}</p>
+                {% endif %}
+            </form>
+        </div>
+
+        <div id="root-folders" class="section hidden">
+            <h2 class="section-title">Root Folders</h2>
+            <ul class="list">
+                {% for folder in folders %}
+                    <li class="list-item">
+                        <a href="{% url 'foldermaster:foldermanagement' folder_id=folder.id %}" class="link">{{ folder.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="root-files" class="section hidden">
+            <h2 class="section-title">Root Files</h2>
+            <ul class="list">
+                {% for file in files %}
+                    <li class="list-item">
+                        {{ file.name }} - <a href="{% url 'foldermaster:download_file' file_id=file.id %}" class="link">Download</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="recent-files" class="section hidden">
+            <h2 class="section-title">Recent Files</h2>
+        </div>
+
+        <div id="trash" class="section hidden">
+            <h2 class="section-title">Trash</h2>
+        </div>
+
+        <div id="storage" class="section hidden">
+            <h2 class="section-title">Storage</h2>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

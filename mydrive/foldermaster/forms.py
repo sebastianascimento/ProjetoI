@@ -1,5 +1,6 @@
 from django import forms
 from .models import Folder, File
+from django.db import models
 
 class FolderForm(forms.ModelForm):
     class Meta:
@@ -28,7 +29,33 @@ class FolderForm(forms.ModelForm):
         if commit:
             folder.save()
         return folder
+    
+
 class FileForm(forms.ModelForm):
     class Meta:
         model = File
         fields = ['name', 'folder', 'file']
+
+    def __init__(self, user=None, *args, **kwargs):
+        self.user = user
+        super(FileForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        file_instance = super(FileForm, self).save(commit=False)
+        if self.user:
+            file_instance.owner = self.user
+        if commit:
+            file_instance.save()
+        return file_instance
+
+        
+class FileUploadForm(forms.Form):
+    filename = forms.CharField(max_length=255)
+    file = forms.FileField()
+    folder_id = forms.IntegerField(required=False)  # Este campo é opcional, pode ser fornecido ou não
+
+    def clean(self):
+        cleaned_data = super().clean()
+        # Implemente validações adicionais se necessário
+        return cleaned_data
+

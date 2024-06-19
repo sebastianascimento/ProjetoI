@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="download-file-section">
+    <h2 class="section-title">Download File: {{ file.name }}</h2>
+    <p>File Details:</p>
+    <ul>
+        <li>Name: {{ file.name }}</li>
+        <li>Size: {{ file.file.size|filesizeformat }}</li>
+        <!-- Adicionar mais detalhes conforme necessário -->
+    </ul>
+    <a href="{% url 'foldermaster:download_file' file_id=file.id %}" class="file-link">Download File</a>
+</div>
+{% endblock %}

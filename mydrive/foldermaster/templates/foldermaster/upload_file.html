@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="upload-file-section">
+    <form id="uploadFileForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="file">Select File:</label>
+            <input type="file" id="file" name="file" required>
+        </div>
+        <div class="form-group">
+            <label for="filename">File Name:</label>
+            <input type="text" id="filename" name="filename" required>
+        </div>
+        <input type="hidden" name="folder_id" value="{{ folder.id }}">  <!-- Hidden input for folder_id -->
+        <button type="submit" class="submit-button">Upload File</button>
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

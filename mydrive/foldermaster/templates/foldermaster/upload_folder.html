@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Folder</title>
+</head>
+<body>
+    <input type="file" id="zipInput" accept=".zip">
+    <button onclick="uploadZip()">Upload ZIP</button>
+
+    <!-- Incluindo o arquivo JavaScript -->
+    <script src="{% static 'js/upload_folder.js' %}"></script>
+</body>
+</html>
+{% endblock %}

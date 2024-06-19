@@ -1,0 +1,67 @@
+html antingo front end
+
+{% extends 'core/base.html' %}
+
+{% block title %}
+Your Drive
+{% endblock %}
+
+{% block content %}
+<div class="">
+    <h1 class="">Welcome to Your Drive</h1>
+    <p class="">Here you can manage your files and folders.</p>
+
+    {% if not folder %}
+        <h2 class="">Root Folders</h2>
+        <ul class="">
+            {% for folder in folders %}
+                <li><a href="{% url 'foldermaster:foldermanagement' folder.id %}" class="text-blue-500 hover:underline">{{ folder.name }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h2 class="">Root Files</h2>
+        <ul class="">
+            {% for file in files %}
+                <li>{{ file.name }} - <a href="{% url 'download_file' file_id=file.id %}">Download</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h2 class="">{{ folder.name }}</h2>
+        <h3 class="">Subfolders</h3>
+        <ul class="">
+            {% for subfolder in subfolders %}
+                <li><a href="{% url 'foldermaster:foldermanagement' subfolder.id %}" class="text-blue-500 hover:underline">{{ subfolder.name }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h3 class="">Files</h3>
+        <ul class="">
+            {% for file in files %}
+                <li>{{ file.name }} - <a href="{% url 'foldermaster:download_file' file_id=file.id %}">Download</a>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2 class="">Create Folder</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="">
+            {{ folder_form.as_p }}
+        </div>
+        <button type="submit" name="create_folder" class="">Create Folder</button>
+        {% if error %}
+            <p class="">{{ error }}</p>
+        {% endif %}
+    </form>
+
+    <h2 class="">Upload File</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ file_form.as_p }}
+        </div>
+        <button type="submit" name="upload_file" class="">Upload File</button>
+    </form>
+</div>
+{% endblock %}
+
