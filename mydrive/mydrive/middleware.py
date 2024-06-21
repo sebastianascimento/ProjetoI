@@ -11,12 +11,10 @@ class CustomLoginRedirectMiddleware:
 
         if request.user.is_authenticated:
             if request.user.is_superuser or request.user.is_staff:
-                # Superusuário ou staff acessa o admin
                 if request.path.startswith(reverse('admin:index')):
                     return response
                 return redirect('/admin/')
             else:
-                # Usuário normal é redirecionado para a área de gerenciamento de pastas
                 if request.path.startswith('/admin/'):
                     return redirect(reverse('foldermaster:foldermanagement'))
                 elif request.path.startswith(reverse('foldermaster:foldermanagement')):

@@ -57,8 +57,6 @@ class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):
         if self.request.user.is_superuser or self.request.user.is_staff:
             return redirect('/admin/')
-        else:
-            return reverse('foldermaster:foldermanagement')
     
 
 

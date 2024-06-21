@@ -1,6 +1,5 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import admin
 
 from . import views
