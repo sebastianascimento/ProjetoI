@@ -9,13 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Drive | Drive World</title>
     <link href="{% static 'css/foldermaster.css' %}" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="background-gray">
     <div class="flex-container">
         <!-- Barra de navegação -->
         <nav class="navbar">
             <ul class="navbar-list">
+                <li><a href="{% url 'foldermaster:foldermanagement' %}" class="navbar-link">My Drive</a></li>
                 <li>
                     {% if folder %}
                         <a href="{% url 'foldermaster:create_subfolder' folder.id %}" id="showNewFolderForm" class="navbar-link">New Folder</a>
@@ -23,24 +23,23 @@
                         <a href="{% url 'foldermaster:create_folder_root' %}" id="showNewFolderForm" class="navbar-link">New Folder</a>
                     {% endif %}
                 </li>
-                <li><a href="{% url 'foldermaster:foldermanagement' %}" class="navbar-link">My Drive</a></li>
                 <li>
                     {% if folder %}
                         <a href="{% url 'foldermaster:upload_file_with_folder' folder.id %}" class="navbar-link">New File</a>
                     {% else %}
-                        <a href="{% url 'foldermaster:upload_file_root' %}" class="navbar-link">New File (Root)</a>
+                        <a href="{% url 'foldermaster:upload_file_root' %}" class="navbar-link">New File</a>
                     {% endif %}
                 </li>
                 <li>
                     {% if folder %}
                         <a href="{% url 'foldermaster:upload_folder_with_parent' folder.id %}" class="navbar-link">Upload Folder</a>
                     {% else %}
-                        <a href="{% url 'foldermaster:upload_folder' %}" class="navbar-link">Upload Folder (Root)</a>
+                        <a href="{% url 'foldermaster:upload_folder' %}" class="navbar-link">Upload Folder</a>
                     {% endif %}
                 </li>
                 <li>
                     {% if folder %}
-                        <a href="{% url 'foldermaster:delete_folder' folder.id %}" class="navbar-link" onclick="return confirm('Tem certeza que deseja excluir esta pasta?')">Delete Folder</a>
+                        <a href="{% url 'foldermaster:delete_folder' folder.id %}" class="navbar-link">Delete Folder</a>
                     {% endif %}
                 </li>
                 <li><a href="#" class="navbar-link">Trash</a></li>
@@ -61,47 +60,37 @@
                             <li><a href="{% url 'foldermaster:foldermanagement_with_folder' folder_id=id %}">{{ name }}</a></li>
                         {% endfor %}
                         <li class="separator">/</li>
-                        <li>{{ folder.name }}</li>
                     </ul>
                 {% endif %}
             </div>
     
             <!-- Lista de pastas principais -->
             <div class="root-folders-section">
-                <h2 class="section-title">Root Folders</h2>
+                <h2 class="section-title">Folders</h2>
                 <ul class="folder-list">
                     {% for folder in folders %}
                         <li class="folder-item">
+                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="48px" height="48px"><path fill="#FFA000" d="M40,12H22l-4-4H8c-2.2,0-4,1.8-4,4v8h40v-4C44,13.8,42.2,12,40,12z"/><path fill="#FFCA28" d="M40,12H8c-2.2,0-4,1.8-4,4v20c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V16C44,13.8,42.2,12,40,12z"/></svg>
                             <a href="{% url 'foldermaster:foldermanagement_with_folder' folder_id=folder.id %}" class="folder-link">{{ folder.name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
     
-            <!-- Lista de subpastas (dentro da pasta pai) -->
-            {% if folder %}
-            <div class="subfolders-section">
-                <h2 class="section-title">Subfolders of {{ folder.name }}</h2>
-                <ul class="folder-list">
-                    {% for subfolder in subfolders %}
-                        <li class="folder-item">
-                            <a href="{% url 'foldermaster:foldermanagement_with_folder' folder_id=subfolder.id %}" class="folder-link">{{ subfolder.name }}</a>
-                        </li>
-                    {% empty %}
-                        <li>No subfolders found.</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
+         
     
             <!-- Lista de arquivos -->
             <div class="root-files-section">
-                <h2 class="section-title">Root Files</h2>
+                <h2 class="section-title">Files</h2>
                 <ul class="file-list">
                     {% for file in files %}
                         <li class="file-item">
-                            {{ file.name }} -
-                            <a href="{% url 'foldermaster:download_file' file_id=file.id %}" class="file-link">Download</a>
+                            <div class="icon-file">
+                                <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="48px" height="48px"><path fill="#50e6ff" d="M39,16v25c0,1.105-0.895,2-2,2H11c-1.105,0-2-0.895-2-2V7c0-1.105,0.895-2,2-2h17L39,16z"/><linearGradient id="F8F33TU9HxDNWNbQYRyY3a" x1="28.529" x2="33.6" y1="15.472" y2="10.4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3079d6"/><stop offset="1" stop-color="#297cd2"/></linearGradient><path fill="url(#F8F33TU9HxDNWNbQYRyY3a)" d="M28,5v9c0,1.105,0.895,2,2,2h9L28,5z"/></svg>
+                                <span class="file-name"> {{ file.name }} - </span>
+                                <a href="{% url 'foldermaster:download_file' file_id=file.id %}" class="file-link"> Download</a>
+
+                            </div>
                         </li>
                     {% endfor %}
                 </ul>

@@ -22,6 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
+#LOGIN_URL = '/core/login/'
+#LOGIN_REDIRECT_URL = '/foldermaster/foldermanagement'
+
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -33,6 +38,8 @@ SECRET_KEY = 'django-insecure-jz^3&@m$^_yhj!53&tga0tut7kb!^^47jy85ig0fbf*$^(diz=
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+#AUTH_USER_MODEL = 'core.User'
 
 
 # Application definition
@@ -56,6 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'mydrive.middleware.CustomLoginRedirectMiddleware',
+
 ]
 
 ROOT_URLCONF = 'mydrive.urls'

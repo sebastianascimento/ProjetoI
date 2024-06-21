@@ -8,7 +8,7 @@ class FolderForm(forms.ModelForm):
         fields = ['name']
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)  # Recebe o usuário como argumento
+        self.user = kwargs.pop('user', None)  
         super(FolderForm, self).__init__(*args, **kwargs)
 
     def clean_name(self):
@@ -17,7 +17,6 @@ class FolderForm(forms.ModelForm):
         
         if parent_folder_id:
             parent_folder = Folder.objects.get(id=parent_folder_id)
-            # Garante que o novo folder pertence ao mesmo owner do parent_folder
             if parent_folder.owner != self.user:
                 raise forms.ValidationError("Você não tem permissão para criar uma pasta aqui.")
         
@@ -52,10 +51,9 @@ class FileForm(forms.ModelForm):
 class FileUploadForm(forms.Form):
     filename = forms.CharField(max_length=255)
     file = forms.FileField()
-    folder_id = forms.IntegerField(required=False)  # Este campo é opcional, pode ser fornecido ou não
+    folder_id = forms.IntegerField(required=False)  
 
     def clean(self):
         cleaned_data = super().clean()
-        # Implemente validações adicionais se necessário
         return cleaned_data
 

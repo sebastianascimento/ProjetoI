@@ -3,10 +3,9 @@ from django.contrib.auth import authenticate , login , logout
 from django.contrib  import messages
 from foldermaster.models import Folder
 from django.urls import reverse
-from django.contrib.admin.views.decorators import staff_member_required
-from django.conf import settings
-from django.contrib.auth.decorators import user_passes_test
-
+from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import views as auth_views
 
 
 from .forms import SignupForm , LoginForm
@@ -51,6 +50,17 @@ def get_folder_id_for_user(user):
         return None 
     
 
+class CustomLoginView(auth_views.LoginView):
+    #form_class = AuthenticationForm
+    template_name = 'core/login.html'
+
+    def get_success_url(self):
+        if self.request.user.is_superuser or self.request.user.is_staff:
+            return redirect('/admin/')
+        else:
+            return reverse('foldermaster:foldermanagement')
+    
+
 
 def login_redirect_url(request):
     user = request.user
@@ -74,10 +84,9 @@ def login_view(request):
             login(request, user)
             if user.is_staff:
                 print(user.is_satff)
-                return redirect(settings.ADMIN_URL)
+                return redirect('/admin/')
             else:
-                folder_id = get_folder_id_for_user(user)
-                return redirect('foldermaster:foldermanagement', folder_id=folder_id)
+                 return redirect(login_redirect_url(request))
         else:
             error_message = 'Invalid username or password.'
     
@@ -85,10 +94,10 @@ def login_view(request):
     return render(request, 'core/login.html', context)
 
 
-@staff_member_required
 def admin_view(request):
-    return redirect(settings.ADMIN_URL)
+  return redirect('/admin/')
 
+@login_required
 def logout_view(request):
     logout(request)
     return redirect('core:index')

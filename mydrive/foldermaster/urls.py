@@ -19,5 +19,5 @@ urlpatterns = [
     path('upload/<int:folder_id>/', views.upload_file, name='upload_file_with_folder'),
     path('upload-folder/', views.upload_folder, name='upload_folder'),
     path('upload-folder/<int:folder_id>/', views.upload_folder, name='upload_folder_with_parent'),
-     path('delete-folder/<int:folder_id>/', views.delete_folder, name='delete_folder'),
+    path('delete-folder/<int:folder_id>/', views.delete_folder, name='delete_folder'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

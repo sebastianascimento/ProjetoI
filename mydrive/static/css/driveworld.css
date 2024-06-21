@@ -58,6 +58,24 @@ a:hover {
   max-width: 700px; /* Limit content width for medium and smaller screens */
 }
 
+.title {
+  color: #007bff; /* Blue for headings */
+  font-family: monospace, sans-serif;
+  font-size: 30px;
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+
+p {
+  color: #333; /* Text color */
+  font-family: Arial, sans-serif; /* Font */
+  font-size: 20px; /* Font size */
+  line-height: 1.6; /* Line height */
+  letter-spacing: 0.5px; /* Letter spacing */
+  margin-bottom: 10px; /* Bottom margin */
+  line-height: 2;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .driveworld-navbar {
@@ -74,39 +92,3 @@ a:hover {
     margin: 0.5rem; /* Reduce spacing between links on small screens */
   }
 }
-
-/* Base styles */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f5f5f5; /* Light gray background */
-}
-
-.title {
-  color: #007bff; /* Blue for headings */
-  font-family: monospace, sans-serif;
-  font-size: 30px;
-  margin-top: 100px;
-  margin-bottom: 20px;
-}
-
-p {
-  color: #333; /* Cor do texto */
-  font-family: Arial, sans-serif; /* Fonte */
-  font-size: 20px; /* Tamanho da fonte */
-  line-height: 1.6; /* Espaçamento entre linhas */
-  letter-spacing: 0.5px; /* Espaçamento entre letras */
-  margin-bottom: 10px; /* Margem inferior */
-  line-height: 2;
-}
-
-
-/* Content area */
-.driveworld-content {
-  padding: 2rem;
-  min-height: calc(100vh - 8rem); /* Main content takes up remaining viewport height */
-  margin: 0 auto; /* Center content horizontally */
-  max-width: 700px; /* Limit content width for medium and smaller screens */
-}
-

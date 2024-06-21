@@ -1,111 +1,143 @@
-/* Estilos para a barra de navegação */
-.navbar {
-    background-color: #4285f4; /* Cor de fundo do Google Drive */
-    width: 20%; /* Largura da barra de navegação */
-    height: 100vh; /* Altura total da tela */
-    padding: 16px; /* Espaçamento interno */
-    box-sizing: border-box; /* Inclui padding na largura total */
-    color: white; /* Cor do texto */
-}
+/* styles.css */
 
-.navbar-list {
-    list-style-type: none; /* Remove marcadores da lista */
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove margin */
-}
-
-.navbar-list li {
-    margin-bottom: 16px; /* Espaçamento inferior */
-}
-
-.navbar-brand {
-    font-size: 1.5rem; /* Tamanho da fonte */
-    font-weight: bold; /* Negrito */
-    display: block; /* Exibição em bloco */
-}
-
-.navbar-link {
-    display: block; /* Exibição em bloco */
-    text-decoration: none; /* Remove sublinhado */
-    color: white; /* Cor do texto */
-    font-weight: bold; /* Negrito */
-}
-
-.navbar-link:hover {
-    text-decoration: underline; /* Sublinhado ao passar o mouse */
-}
-
-/* Estilos para o conteúdo principal */
-.flex-container {
-    display: flex; /* Exibição flexível */
-    height: 100vh; /* Altura total da tela */
-}
-
-.main-content {
-    width: 80%; /* Largura do conteúdo principal */
-    padding: 32px; /* Espaçamento interno */
-    box-sizing: border-box; /* Inclui padding na largura total */
+/* Reset de estilos básicos */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
 
 .background-gray {
-    background-color: #f3f4f6; /* Cor de fundo cinza claro */
+    background-color: #f0f0f0;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.navbar {
+    background-color: #007bff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-left: -100px;
+    width: 800px;
+    height: 60px;
+}
+
+.navbar-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+}
+
+.navbar-list li {
+    margin-right: 10px;
+}
+
+.navbar-link {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-link:hover {
+    background-color: #0056b3;
+}
+
+.main-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    margin-left: -100px;
+    width: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.icon-file {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
 }
 
 .section-title {
-    font-size: 1.25rem; /* Tamanho da fonte */
-    font-weight: bold; /* Negrito */
-    margin-bottom: 16px; /* Margem inferior */
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
 }
 
-.new-folder-section {
-    margin-bottom: 32px; /* Espaçamento inferior */
+.breadcrumbs {
+    margin-bottom: 20px;
 }
 
-.new-folder-form {
-    display: flex; /* Exibição flexível */
-    flex-direction: column; /* Coluna */
+.breadcrumb-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    color: #007bff;
 }
 
-.form-group {
-    margin-bottom: 8px; /* Espaçamento inferior */
+.breadcrumb-list li {
+    margin-right: 5px;
 }
 
-.button, .submit-button {
-    background-color: #1a73e8; /* Cor de fundo azul */
-    color: white; /* Cor do texto */
-    padding: 8px 16px; /* Espaçamento interno */
-    border: none; /* Sem borda */
-    border-radius: 4px; /* Bordas arredondadas */
-    cursor: pointer; /* Cursor de ponteiro */
+.separator {
+    color: #ccc;
+    margin: 0 5px;
 }
 
-.error-message {
-    color: red; /* Cor do texto */
-    margin-top: 8px; /* Margem superior */
+.root-folders-section,
+.root-files-section {
+    margin-bottom: 30px;
 }
 
-.folder-list,
+.folder-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.folder-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.folder-link {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.folder-icon {
+    margin-right: 10px;
+    color: #007bff;
+}
+
 .file-list {
-    list-style-type: disc; /* Marcadores de lista */
-    padding-left: 20px; /* Espaçamento interno à esquerda */
+    list-style-type: none;
+    padding: 0;
 }
 
-.folder-item,
 .file-item {
-    margin-bottom: 8px; /* Espaçamento inferior */
+    margin-bottom: 10px;
+    color: #555;
 }
 
-.folder-link,
 .file-link {
-    color: #1a73e8; /* Cor do link */
-    text-decoration: none; /* Remove sublinhado */
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
 }
 
-.folder-link:hover,
 .file-link:hover {
-    text-decoration: underline; /* Sublinhado ao passar o mouse */
-}
-
-.hidden {
-    display: none; /* Oculta elementos */
+    color: #0056b3;
 }

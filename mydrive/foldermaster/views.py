@@ -7,7 +7,7 @@ from .forms import FolderForm, FileForm
 from .forms import FileUploadForm 
 from django.http import HttpResponse , Http404 , HttpResponseBadRequest , JsonResponse
 from django.db.models import Sum
-from .models import User
+from django.contrib.auth import get_user_model
 import zipfile
 import logging
 
@@ -262,7 +262,6 @@ def delete_file(request, file_id):
         return JsonResponse({'error': 'Arquivo não encontrado ou permissão negada'}, status=404)
     
 
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -270,39 +269,39 @@ User = get_user_model()
 def delete_folder(request, folder_id):
     try:
         folder = get_object_or_404(Folder, pk=folder_id, owner=request.user)
+        print(f"Request method: {request.method}")
+        print(f"Folder found: {folder.id}")
 
         if request.method == 'POST':
-            # Função recursiva para deletar a pasta e suas subpastas
             def recursively_delete_folder(folder):
                 storage_reduction = 0
 
-                # Verifica se a pasta tem arquivos
-                if folder.files.count() > 0:
-                    storage_reduction += folder.files.aggregate(Sum('size'))['size__sum'] or 0
+                files = File.objects.filter(folder=folder)
+                files_size = sum(file.file.size for file in files)
+                storage_reduction += files_size
 
-                # Verifica se a pasta tem subpastas
-                if folder.children.count() > 0:
-                    for child_folder in folder.children.all():
-                        storage_reduction += recursively_delete_folder(child_folder)
+                for child_folder in folder.children.all():
+                    storage_reduction += recursively_delete_folder(child_folder)
 
-                # Depois de verificar, exclui a própria pasta
+                files.delete()
+
                 folder.delete()
 
                 return storage_reduction
 
-            # Chama a função recursiva para deletar a pasta e obter a redução de armazenamento
             storage_reduction = recursively_delete_folder(folder)
+            print(f"Storage reduction: {storage_reduction}")
 
-            # Reduz o armazenamento usado pelo usuário
             user = request.user
-            user.storage_used -= storage_reduction
-            user.save()
+            if hasattr(user, 'storage_used'):
+                user.storage_used -= storage_reduction
+                user.save()
+            else:
+                print("User does not have 'storage_used' attribute")
 
-            # Redireciona de volta para a pasta pai ou para a raiz após a exclusão
             parent_folder = folder.parent
-            return redirect('foldermaster:foldermanagement', folder_id=parent_folder.id if parent_folder else None)
+            return redirect('foldermaster:foldermanagement')
         else:
-            # Se a solicitação não for POST, renderiza a template de confirmação de exclusão
             context = {
                 'folder': folder
             }
@@ -312,6 +311,4 @@ def delete_folder(request, folder_id):
         return JsonResponse({'error': 'Pasta não encontrada'}, status=404)
     except PermissionError:
         return JsonResponse({'error': 'Permissão negada'}, status=403)
-    except Exception as e:
-        # Captura exceções não tratadas para depuração
-        print(f"Erro inesperado: {str(e)}")
+

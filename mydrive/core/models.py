@@ -1,8 +1,6 @@
-# core/models.py
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import Group, Permission
 
 class User(AbstractUser):
     storage_used = models.BigIntegerField(default=0)
@@ -11,7 +9,7 @@ class User(AbstractUser):
     is_normal_user = models.BooleanField(default=True)
 
     groups = models.ManyToManyField(
-        Group,
+        'auth.Group',
         verbose_name=_('groups'),
         blank=True,
         related_name='core_user_groups',  
@@ -22,7 +20,7 @@ class User(AbstractUser):
     )
 
     user_permissions = models.ManyToManyField(
-        Permission,
+        'auth.Permission',
         verbose_name=_('user permissions'),
         blank=True,
         related_name='core_user_permissions', 
