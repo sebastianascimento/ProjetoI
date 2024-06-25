@@ -5,14 +5,11 @@ from django.core.files.base import ContentFile
 from .models import Folder, File
 from .forms import FolderForm, FileForm
 from .forms import FileUploadForm 
-from django.http import HttpResponse , Http404 , HttpResponseBadRequest , JsonResponse
-from django.db.models import Sum
+from django.http import HttpResponse , Http404 , JsonResponse
 from django.contrib.auth import get_user_model
 import zipfile
-import logging
 
-
-logger = logging.getLogger(__name__)
+User = get_user_model()
 
 
 @login_required
@@ -24,16 +21,13 @@ def foldermanagement(request, folder_id=None):
     breadcrumbs = []
 
     try:
-        # Verifica e cria a pasta padrão se não existir
         if not Folder.objects.filter(owner=request.user).exists():
             default_folder = Folder.objects.create(name='Default Folder', owner=request.user)
             folder_id = default_folder.id
 
-        # Calcula o espaço utilizado pelo usuário
         storage_used = sum(file.file.size for file in File.objects.filter(owner=request.user))
         print("Storage used:", storage_used)
 
-        # Define o limite de armazenamento (50 MB neste exemplo)
         storage_limit = 50 * 1024 * 1024
         storage_available = storage_limit - storage_used
         context['storage_available'] = storage_available
@@ -55,7 +49,6 @@ def foldermanagement(request, folder_id=None):
             'breadcrumbs': breadcrumbs,
         })
 
-        # Processa submissões de formulários POST
         if request.method == 'POST':
             if 'create_folder' in request.POST:
                 form = FolderForm(request.POST)
@@ -167,11 +160,9 @@ def upload_folder(request, folder_id=None):
     if request.method == 'POST' and request.FILES.get('zip_file'):
         zip_file = request.FILES['zip_file']
         
-        # Extrair o arquivo ZIP
         with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-            zip_ref.extractall('/tmp/extracted_folder')  # Extrair para um diretório temporário
+            zip_ref.extractall('/tmp/extracted_folder')  
             
-            # Processar a estrutura extraída
             process_extracted_folder('/tmp/extracted_folder', folder, request.user)
 
         if folder_id:
@@ -196,7 +187,6 @@ def process_extracted_folder(path, parent_folder, user):
             file_path = os.path.join(root, file_name)
             relative_file_path = os.path.relpath(file_path, path)
             
-            # Save file
             file_model = File(name=file_name, folder=current_folder, owner=user)
             with open(file_path, 'rb') as f:
                 file_model.file.save(file_name, ContentFile(f.read()))
@@ -207,7 +197,7 @@ def create_folders_from_path(path, parent_folder, user):
     current_folder = parent_folder
     for part in parts:
         if part:
-            folder, created = Folder.objects.get_or_create(name=part, parent=current_folder, owner=user)
+            folder= Folder.objects.get_or_create(name=part, parent=current_folder, owner=user)
             current_folder = folder
     return current_folder
 
@@ -247,23 +237,20 @@ def create_folder(request, folder_id=None):
 
 @login_required
 def delete_file(request, file_id):
-    if request.method != 'POST':
-        return HttpResponseBadRequest('Method Not Allowed') 
-
     try:
-        file = File.objects.get(pk=file_id, owner=request.user)
+        file = get_object_or_404(File, pk=file_id, owner=request.user)
+        file_size = file.file.size
         file.delete()
 
-        request.user.storage_used -= file.file.size
-        request.user.save()
+        if hasattr(request.user, 'storage_used'):
+            request.user.storage_used -= file_size
+            request.user.save()
 
-        return JsonResponse({'success': True})
-    except (File.DoesNotExist, PermissionError):
-        return JsonResponse({'error': 'Arquivo não encontrado ou permissão negada'}, status=404)
-    
+        return redirect('foldermaster:foldermanagement')
+    except File.DoesNotExist:
+        return JsonResponse({'error': 'Arquivo não encontrado'}, status=404)
 
 
-User = get_user_model()
 
 @login_required
 def delete_folder(request, folder_id):
@@ -299,7 +286,6 @@ def delete_folder(request, folder_id):
             else:
                 print("User does not have 'storage_used' attribute")
 
-            parent_folder = folder.parent
             return redirect('foldermaster:foldermanagement')
         else:
             context = {

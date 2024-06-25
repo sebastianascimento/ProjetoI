@@ -7,12 +7,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Upload Folder</title>
+    <link href="{% static 'css/upload_folder.css' %}" rel="stylesheet">
 </head>
 <body>
-    <input type="file" id="zipInput" accept=".zip">
-    <button onclick="uploadZip()">Upload ZIP</button>
-
-    <!-- Incluindo o arquivo JavaScript -->
+    <div class="upload-folder-section">
+        <h1>Upload ZIP Folder</h1>
+        <label for="zipInput" class="custom-file-upload">Choose ZIP File</label>
+        <input type="file" id="zipInput" accept=".zip">
+        <button class="upload-button" onclick="uploadZip()">Upload ZIP</button>
+    </div>
     <script src="{% static 'js/upload_folder.js' %}"></script>
 </body>
 </html>

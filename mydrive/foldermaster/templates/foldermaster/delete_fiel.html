@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Drive | Drive World</title>
+    <link href="{% static 'css/delete_file.css' %}" rel="stylesheet">
+</head>
+<body class="background-gray">
+    <div class="flex-container">
+        <div class="main-content">
+            <div class="delete-file-section">
+                <h2>Confirmar Exclusão de Arquivo</h2>
+                <p>Você está prestes a excluir o arquivo: <strong>{{ file.name }}</strong>.</p>
+                <p>Esta ação é irreversível. Deseja continuar?</p>
+
+                <form method="post" action="{% url 'foldermaster:delete_file' file_id=file.id %}" class="delete-file-form">
+                    {% csrf_token %}
+                    <input type="submit" value="Confirmar Exclusão" class="delete-file-btn">
+                    <a href="{% url 'foldermaster:foldermanagement' %}" class="cancel-btn">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

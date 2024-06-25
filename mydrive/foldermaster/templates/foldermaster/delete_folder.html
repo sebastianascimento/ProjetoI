@@ -2,6 +2,14 @@
 {% load static %}
 
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Drive | Drive World</title>
+    <link href="{% static 'css/delete_folder.css' %}" rel="stylesheet">
+</head>
 <div class="container">
     <h2>Confirmar Exclusão de Pasta</h2>
     <p>Você está prestes a excluir a pasta: <strong>{{ folder.name }}</strong>.</p>
@@ -11,7 +19,7 @@
         {% csrf_token %}
         <input type="submit" value="Confirmar Exclusão" class="btn btn-danger">
         {% if folder.parent %}
-            <a href="{% url 'foldermaster:foldermanagement' folder.parent.id %}" class="btn btn-secondary">Cancelar</a>
+            <a href="{% url 'foldermaster:foldermanagement_with_folder' folder.parent.id %}" class="btn btn-secondary">Cancelar</a>
         {% else %}
             <a href="{% url 'foldermaster:foldermanagement' %}" class="btn btn-secondary">Cancelar</a>
         {% endif %}

@@ -1,6 +1,5 @@
-/* styles.css */
 
-/* Reset de estilos básicos */
+
 body, html {
     margin: 0;
     padding: 0;
@@ -43,7 +42,7 @@ body, html {
     color: white;
     text-decoration: none;
     padding: 5px 10px;
-    border-radius: 3px;
+    border-radius: 50px;
     transition: background-color 0.3s ease;
 }
 
@@ -122,6 +121,8 @@ body, html {
     color: #007bff;
 }
 
+
+
 .file-list {
     list-style-type: none;
     padding: 0;
@@ -130,14 +131,47 @@ body, html {
 .file-item {
     margin-bottom: 10px;
     color: #555;
+    display: flex;
+    align-items: center;
 }
 
 .file-link {
     text-decoration: none;
     color: #007bff;
     transition: color 0.3s ease;
+    margin-right: 10px; 
 }
 
 .file-link:hover {
     color: #0056b3;
 }
+
+.delete-file-form {
+    margin-left: auto; 
+}
+
+.delete-file-btn {
+    background-color: #f44336; 
+    color: white; 
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+    margin-left: 10px; 
+}
+
+.delete-file-btn:hover {
+    background-color: #d32f2f; 
+}
+
+.add-folder-container {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+

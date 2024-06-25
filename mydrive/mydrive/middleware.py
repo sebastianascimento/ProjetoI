@@ -10,15 +10,16 @@ class CustomLoginRedirectMiddleware:
         response = self.get_response(request)
 
         if request.user.is_authenticated:
-            if request.user.is_superuser or request.user.is_staff:
+            if request.user.is_superuser:
                 if request.path.startswith(reverse('admin:index')):
                     return response
                 return redirect('/admin/')
-            else:
+            elif request.user.is_staff:
                 if request.path.startswith('/admin/'):
-                    return redirect(reverse('foldermaster:foldermanagement'))
-                elif request.path.startswith(reverse('foldermaster:foldermanagement')):
-                    return response
-                return redirect(reverse('foldermaster:foldermanagement'))
+                    return response  
+                else:
+                    return redirect('/admin/')  
+            elif request.path.startswith(reverse('foldermaster:foldermanagement')):
+                return response
 
         return response

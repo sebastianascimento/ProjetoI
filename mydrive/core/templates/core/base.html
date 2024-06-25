@@ -3,17 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="{% static 'css/driveworld.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/foldermaster.css' %}">
     <title>{% block title %}{% endblock %} | Drive World</title>
 </head>
 <body>
     <nav class="driveworld-navbar">
-        <a href="/" class="driveworld-brand">Drive World</a>
         {% if user.is_authenticated %}
+            <a href="{% url 'foldermaster:foldermanagement'%}" class="driveworld-brand">Drive World</a>
             <a href="{% url 'core:logout' %}" class="driveworld-logout">Logout</a>
         {% else %}
+            <a href="/" class="driveworld-brand">Drive World</a>
         <div class=>
             <a href="{% url 'core:signup' %}" class="driveworld-signup">Sign up</a>
             <a href="{% url 'core:login' %}" class="driveworld-login">Log in</a>

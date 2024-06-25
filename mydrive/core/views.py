@@ -2,9 +2,8 @@ from django.shortcuts import render , redirect
 from django.contrib.auth import authenticate , login , logout
 from django.contrib  import messages
 from foldermaster.models import Folder
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required 
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import views as auth_views
 
 
@@ -14,16 +13,14 @@ from .forms import SignupForm , LoginForm
 
 def index(request):
     if request.user.is_authenticated:
-        if request.user.is_staff:
-            return redirect('admin:index')
+        folder_id = get_folder_id_for_user(request.user)
+        if folder_id:
+            return redirect('foldermaster:foldermanagement_with_folder', folder_id=folder_id)
         else:
-            folder_id = get_folder_id_for_user(request.user)
-            return redirect('foldermaster:foldermanagement' , folder_id=folder_id)
+            return redirect('foldermaster:foldermanagement')
     else:
         return render(request, 'core/index.html')
 
-def contact(request):
-    return render(request, 'core/contact.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -41,7 +38,7 @@ def signup(request):
 
 def get_folder_id_for_user(user):
     try:
-        folder = Folder.objects.filter(user=user).first() 
+        folder = Folder.objects.filter(owner=user).first() 
         if folder:
             return folder.id
         else:
@@ -51,12 +48,18 @@ def get_folder_id_for_user(user):
     
 
 class CustomLoginView(auth_views.LoginView):
-    #form_class = AuthenticationForm
     template_name = 'core/login.html'
 
     def get_success_url(self):
-        if self.request.user.is_superuser or self.request.user.is_staff:
+        user = self.request.user
+        if user.is_superuser or user.is_staff:
             return redirect('/admin/')
+        else:
+            folder_id = get_folder_id_for_user(user)
+            if folder_id:
+                return reverse_lazy('foldermaster:foldermanagement_with_folder', kwargs={'folder_id': folder_id})
+            else:
+                return reverse_lazy('foldermaster:foldermanagement')
     
 
 
@@ -81,10 +84,9 @@ def login_view(request):
         if user is not None:
             login(request, user)
             if user.is_staff:
-                print(user.is_satff)
                 return redirect('/admin/')
             else:
-                 return redirect(login_redirect_url(request))
+                 return redirect('foldermaster:foldermanagement')
         else:
             error_message = 'Invalid username or password.'
     
@@ -94,6 +96,8 @@ def login_view(request):
 
 def admin_view(request):
   return redirect('/admin/')
+
+
 
 @login_required
 def logout_view(request):
