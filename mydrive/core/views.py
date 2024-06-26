@@ -30,6 +30,7 @@ def signup(request):
             messages.success(request, ' Sign Up Sucess.')
             return redirect('core:login')
         else:
+            print(form.errors)
             messages.error(request, 'Error in Signup. Please check the data provided.')
     else:
         form = SignupForm()

@@ -172,10 +172,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#EMAIL
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'smtp.seuservidor.com'
-#EMAIL_PORT = 587
-#EMAIL_USE_TLS = True
-#EMAIL_HOST_USER = str(os.getenv('HOST_USER'))
-#EMAIL_HOST_PASSWORD = str(os.getenv('HOST_PASSWORD'))
+#Email
+EMAIL_BACKEND  =  "django.core.mail.backends.filebased.EmailBackend" 
+EMAIL_FILE_PATH  =  BASE_DIR  /  "sent_emails"

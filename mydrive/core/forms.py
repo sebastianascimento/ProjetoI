@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class ChangeForm(AuthenticationForm):
     newpassword = forms.CharField(widget=forms.PasswordInput(attrs={
          'placeholder' : 'New Password',
-         'class' : 'form_control'
+         'class' : 'form-control'
     }))
 
 class LoginForm(AuthenticationForm):
@@ -14,19 +14,16 @@ class LoginForm(AuthenticationForm):
         label='Username',
         widget=forms.TextInput(attrs= {
             'placeholder' : 'Your Username',
-            'class' : 'form_control'
+            'class' : 'form-control'
             }))
 
     password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput(attrs={
         'placeholder': 'Your password',
-        'class' : 'form_control'
+        'class' : 'form-control'
     }))
      
-
-
-
 class SignupForm(UserCreationForm):
     username = forms.CharField(
         max_length=150,
@@ -37,7 +34,7 @@ class SignupForm(UserCreationForm):
         })
     )
 
-    email = forms.EmailField(
+    email= forms.EmailField(
         max_length=250,
         required=True,
         widget=forms.EmailInput(attrs={
@@ -49,6 +46,7 @@ class SignupForm(UserCreationForm):
     password1 = forms.CharField(
         label="Password",
         strip=False,
+        required=True,
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Your password',
             'class': 'form-control'
@@ -58,21 +56,19 @@ class SignupForm(UserCreationForm):
     password2 = forms.CharField(
         label="Password confirmation",
         strip=False,
+        required=True,
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Repeat password',
             'class': 'form-control'
         })
     )
-
-    account_type = forms.ChoiceField(
-        choices=[('normal', 'Normal'), ('staff', 'Staff')],
-        required=True,
-        widget=forms.Select(attrs={'class': 'form-control'})
-    )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].strip = True 
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'account_type')
+        fields = ('username', 'email', 'password1', 'password2')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

@@ -49,41 +49,6 @@ def foldermanagement(request, folder_id=None):
             'breadcrumbs': breadcrumbs,
         })
 
-        if request.method == 'POST':
-            if 'create_folder' in request.POST:
-                form = FolderForm(request.POST)
-                if form.is_valid():
-                    parent_folder_id = request.POST.get('parent_folder_id')
-                    parent_folder = get_object_or_404(Folder, id=parent_folder_id, owner=request.user) if parent_folder_id else None
-                    folder = form.save(commit=False)
-                    folder.owner = request.user
-                    folder.parent = parent_folder
-                    folder.save()
-
-                    return redirect('foldermaster:foldermanagement', folder_id=folder.parent.id if folder.parent else None)
-                context['folder_form'] = form
-
-            elif 'upload_file' in request.POST:
-                form = FileForm(request.POST, request.FILES)
-                if form.is_valid():
-                    new_file = form.save(commit=False)
-                    new_file.owner = request.user
-                    new_file.folder = get_object_or_404(Folder, id=request.POST.get('parent_folder_id'), owner=request.user) if request.POST.get('parent_folder_id') else None
-                    file_size = new_file.file.size
-                    if storage_used + file_size > storage_limit:
-                        context['error'] = "Você excedeu o limite de armazenamento de 50 MB."
-                    else:
-                        new_file.save()
-                        storage_used += file_size
-                        request.user.storage_used = storage_used
-                        request.user.save()
-                        return redirect('foldermaster:foldermanagement', folder_id=new_file.folder.id if new_file.folder else None)
-                context['file_form'] = form
-
-        else:
-            context['folder_form'] = FolderForm()
-            context['file_form'] = FileForm()
-
     except Exception as e:
         print(f"Erro durante o gerenciamento de pasta: {str(e)}")
         context['error'] = "Ocorreu um erro durante o processamento. Por favor, tente novamente mais tarde."
