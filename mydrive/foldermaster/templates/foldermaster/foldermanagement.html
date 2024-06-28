@@ -13,7 +13,6 @@
 
 <body class="background-gray">
     <div class="flex-container">
-        <!-- Barra de navegação -->
         <nav class="navbar">
             <ul class="navbar-list">
                 <li>
@@ -66,7 +65,6 @@
             <!-- Lista de pastas principais -->
             <div class="root-folders-section">
                 {% if folders %}
-                    <h2 class="section-title">Folders</h2>
                     <ul class="folder-list">
                         {% for folder in folders %}
                             <li class="folder-item">
@@ -94,7 +92,6 @@
             <!-- Lista de arquivos -->
             <div class="root-files-section">
                 {% if files %}
-                    <h2 class="section-title">Files</h2>
                     <ul class="file-list">
                         {% for file in files %}
                             <li class="file-item">

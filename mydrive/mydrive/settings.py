@@ -21,20 +21,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-#MEDIA_ROOT = os.path.join(BASE_DIR ,  'media')
 
-#MEDIA_URK = '/media/'
-
-
-
-#LOGIN_URL = '/core/login/'
-#LOGIN_REDIRECT_URL = '/foldermaster/foldermanagement'
-
-
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-jz^3&@m$^_yhj!53&tga0tut7kb!^^47jy85ig0fbf*$^(diz='
@@ -104,7 +91,7 @@ WSGI_APPLICATION = 'mydrive.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'new_db.sqlite3',
     }
 }
 
@@ -146,8 +133,6 @@ LOGGING = {
 }
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -167,8 +152,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 #LOGIN_REDIRECT_URL =  '/foldermaster/foldermanagement/'  
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

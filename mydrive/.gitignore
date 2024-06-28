@@ -1,7 +1,7 @@
 
-*db.sqlite3
+*new_db.sqlite3
 
 .env
 
-/files_users/
 /uploads/
+/files_users/

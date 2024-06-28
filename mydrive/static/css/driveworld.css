@@ -1,65 +1,63 @@
-/* Base styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5; /* Light gray background */
+  background-color: #f5f5f5;
 }
 
 a {
-  color: #333; /* Dark gray for links */
+  color: #333; 
   text-decoration: none;
   transition: color 0.2s ease-in-out;
 }
 
 a:hover {
-  color: #007bff; /* Blue on hover */
+  color: #007bff; 
 }
 
-/* Navigation bar */
 .driveworld-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #fff; /* White background for navbar */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background-color: #fff; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
 .driveworld-brand {
-  font-size: 1.5rem; /* Larger font size for brand name */
+  font-size: 1.5rem; 
   font-weight: bold;
-  color: #007bff; /* Blue for brand name */
+  color: #007bff;
 }
 
 .driveworld-logout,
 .driveworld-signup,
 .driveworld-login {
-  margin-left: 1rem; /* Spacing between links */
-  padding: 0.5rem 1rem; /* Padding for buttons */
-  background-color: #007bff; /* Blue background for buttons */
-  color: #fff; /* White text for buttons */
+  margin-left: 1rem; 
+  padding: 0.5rem 1rem; 
+  background-color: #007bff; 
+  color: #fff; 
   border: none;
-  border-radius: 20px; /* Rounded corners for buttons */
+  border-radius: 20px; 
   cursor: pointer;
 }
 
 .driveworld-logout:hover,
 .driveworld-signup:hover,
 .driveworld-login:hover {
-  background-color: #0d6efd; /* Darker blue on hover for buttons */
+  background-color: #0d6efd;
 }
 
 /* Content area */
 .driveworld-content {
   padding: 2rem;
-  min-height: calc(100vh - 8rem); /* Main content takes up remaining viewport height */
-  margin: 0 auto; /* Center content horizontally */
-  max-width: 700px; /* Limit content width for medium and smaller screens */
+  min-height: calc(100vh - 8rem); 
+  margin: 0 auto; 
+  max-width: 700px; 
 }
 
 .title {
-  color: #007bff; /* Blue for headings */
+  color: #007bff; 
   font-family: monospace, sans-serif;
   font-size: 30px;
   margin-top: 100px;
@@ -67,28 +65,27 @@ a:hover {
 }
 
 p {
-  color: #333; /* Text color */
-  font-family: Arial, sans-serif; /* Font */
-  font-size: 20px; /* Font size */
-  line-height: 1.6; /* Line height */
-  letter-spacing: 0.5px; /* Letter spacing */
-  margin-bottom: 10px; /* Bottom margin */
+  color: #333;
+  font-family: Arial, sans-serif; 
+  font-size: 20px; 
+  line-height: 1.6; 
+  letter-spacing: 0.5px; 
+  margin-bottom: 10px; 
   line-height: 2;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .driveworld-navbar {
-    flex-wrap: wrap; /* Wrap navbar items on smaller screens */
+    flex-wrap: wrap; 
   }
 
   .driveworld-brand {
-    flex-basis: 100%; /* Brand name takes full width on small screens */
+    flex-basis: 100%; 
   }
 
   .driveworld-logout,
   .driveworld-signup,
   .driveworld-login {
-    margin: 0.5rem; /* Reduce spacing between links on small screens */
+    margin: 0.5rem; 
   }
 }

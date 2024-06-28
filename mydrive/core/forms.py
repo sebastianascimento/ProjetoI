@@ -1,13 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import SetPasswordForm
 
-
-class ChangeForm(AuthenticationForm):
-    newpassword = forms.CharField(widget=forms.PasswordInput(attrs={
-         'placeholder' : 'New Password',
-         'class' : 'form-control'
-    }))
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
@@ -75,3 +70,13 @@ class SignupForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("This email address is already in use.")
         return email
+    
+
+class PasswordResetForm(forms.Form):
+    username = forms.CharField(label='Nome de Usuário', max_length=150)
+
+class CustomSetPasswordForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['new_password1'].help_text = ''
+        self.fields['new_password2'].help_text = ''

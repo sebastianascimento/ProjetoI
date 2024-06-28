@@ -1,4 +1,5 @@
-/* Reset de estilos básicos */
+
+
 body, html {
     margin: 0;
     padding: 0;
@@ -6,7 +7,6 @@ body, html {
     background-color: #f7f7f7;
 }
 
-/* Centralizar a seção de upload */
 .upload-folder-section {
     background-color: #fff;
     padding: 20px;

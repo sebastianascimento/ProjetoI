@@ -1,4 +1,4 @@
-/* Reset de estilos básicos */
+
 body, html {
     margin: 0;
     padding: 0;
@@ -6,7 +6,6 @@ body, html {
     background-color: #f7f7f7;
 }
 
-/* Container centralizado */
 .container {
     background-color: #fff;
     padding: 20px;
@@ -29,7 +28,7 @@ body, html {
 }
 
 .container p strong {
-    color: #d9534f; /* Cor para destacar o nome da pasta */
+    color: #d9534f;
 }
 
 .btn {

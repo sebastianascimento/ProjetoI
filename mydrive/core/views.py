@@ -1,8 +1,10 @@
-from django.shortcuts import render , redirect 
-from django.contrib.auth import authenticate , login , logout
+from django.shortcuts import render , redirect , get_object_or_404
+from django.contrib.auth import authenticate , login , logout , update_session_auth_hash
 from django.contrib  import messages
 from foldermaster.models import Folder
 from django.urls import reverse, reverse_lazy
+from .forms import PasswordResetForm, SetPasswordForm
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth import views as auth_views
 
@@ -95,9 +97,33 @@ def login_view(request):
     return render(request, 'core/login.html', context)
 
 
+
+def reset_password_request(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            return redirect('core:reset_password_confirm', username=username)
+    else:
+        form = PasswordResetForm()
+    return render(request, 'core/reset_password_request.html', {'form': form})
+
+def reset_password_confirm(request, username):
+    user = get_object_or_404(User, username=username)
+    if request.method == 'POST':
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Sua senha foi redefinida com sucesso.')
+            return redirect('core:login')
+    else:
+        form = SetPasswordForm(user)
+    return render(request, 'core/reset_password_confirm.html', {'form': form, 'username': username})
+
+
 def admin_view(request):
   return redirect('/admin/')
-
 
 
 @login_required
